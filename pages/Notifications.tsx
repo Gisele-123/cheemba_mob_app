@@ -4,7 +4,7 @@ import TabBar from "@/components/TabBar"
 
 export const Notifications = () => {
     return (
-        <View style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 10, paddingHorizontal: 10, backgroundColor: '#6FCF97', flex: 1, gap: 10, }}>
+        <View style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 10, paddingHorizontal: 10, backgroundColor: '#6FCF97', flex: 1, gap:20, }}>
             <View style={{ width: 300, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10 }}>
                     <Image source={require('../assets/images/logo.png')} style={{ width: 30, height: 30 }} />
@@ -20,7 +20,7 @@ export const Notifications = () => {
                 </View>
             </View>
             <ScrollView contentContainerStyle={styles.homeContainer}>
-                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: 270 }}><Text style={{ color: '#1F384C', fontSize: 20, fontWeight: 'bold' }}>Notifications</Text><Text style={{ color: '#1F384C', fontSize: 13, fontWeight: 'medium' }}>View all</Text></View>
+                <Text style={{ color: '#1F384C', fontSize: 20, fontWeight: 'bold', padding: 10 }}>Notifications</Text>
                 <View style={styles.notificationContainer}>
                     <View style={styles.notification}>
                         <Image source={require('../assets/images/logo.png')} style={{ width: 30, height: 30 }} />
@@ -58,8 +58,7 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderColor: '#F5F5F55C',
         padding: 10,
-        gap: 20,
-        paddingBottom: 80,
+        paddingBottom: 30,
     },
     notificationContainer: {
         display: 'flex',
