@@ -70,15 +70,17 @@ const styles = StyleSheet.create({
     notification: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         gap: 15,
         padding: 10,
+        width: 300,
     },
     notificationText: {
         color: '#23262F',
         fontSize: 16,
         fontWeight: 'semibold',
+        width: 230,
     },
     notificationDate: {
         color: '#708099',
