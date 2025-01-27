@@ -23,6 +23,11 @@ export const Status = () => {
                 <View style={{display:'flex', flexDirection:'row'}}>
                     <Image source={require('../assets/status/cheemba.png')}/>
                     <Image source={require('../assets/status/meter.png')} style={{position:'relative', right: 70, top: 40}}/>
+                    <Image source={require('../assets/status/levelsmeter.png')} style={{position:'relative', right: 80, top: 40, zIndex: 10}}/>
+                </View>
+                <View style={{display:'flex', flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+                    <Image source={require('../assets/icons/attention.png')}/>
+                    <Text style={{color:'#233B45', fontSize: 18, fontWeight:'bold'}}>"Transfer to Community Dustbin"</Text>
                 </View>
             </ScrollView>
             <View style={{ position: 'absolute', bottom: 0 }}>
