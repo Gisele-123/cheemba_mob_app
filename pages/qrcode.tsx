@@ -1,37 +1,58 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text, Alert } from "react-native";
-import { RNCamera } from "react-native-camera";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Alert, Button, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { CameraView, CameraType, useCameraPermissions } from 'expo-camera'; // Import CameraView and CameraType
+import { StackNavigationProp } from '@react-navigation/stack';
 
-export default function QrCode() {
-  const [isScanned, setIsScanned] = useState(false);
-  const navigation = useNavigation<StackNavigationProp<any>>();
+type RootStackParamList = {
+  Welcome: { scannedText: string };
+};
 
-  const handleBarCodeRead = ({ data }: { data: string }) => {
-    if (!isScanned) {
-      setIsScanned(true); 
-      Alert.alert("QR Code Scanned", `Data: ${data}`, [
-        {
-          text: "OK",
-          onPress: () => navigation.navigate("Welcome", { scannedText: data }),
-        },
-      ]);
-    }
+export default function Qrcode() {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const [facing, setFacing] = useState<CameraType>('back'); // Manage camera facing
+  const [permission, requestPermission] = useCameraPermissions(); // Use useCameraPermissions hook
+
+  const handleBarcodeScanned = ({ type, data }: { type: string; data: string }) => {
+    const scannedText = data;
+    navigation.navigate('Welcome', { scannedText });
   };
+
+  useEffect(() => {
+    if (!permission) {
+      return; // Waiting for permission state
+    }
+  }, [permission]);
+
+  if (!permission?.granted) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.message}>We need your permission to access the camera</Text>
+        <Button onPress={requestPermission} title="Grant Permission" />
+      </View>
+    );
+  }
+
+  function toggleCameraFacing() {
+    setFacing((current) => (current === 'back' ? 'front' : 'back'));
+  }
 
   return (
     <View style={styles.container}>
-      <RNCamera
+      <CameraView
         style={styles.camera}
-        onBarCodeRead={handleBarCodeRead}
-        captureAudio={false}
-        barCodeTypes={[RNCamera.Constants.BarCodeType.qr]}
+        facing={facing} // Control camera facing
+        onBarcodeScanned={handleBarcodeScanned} // Correct event name
       >
         <View style={styles.overlay}>
-          <Text style={styles.text}>Align QR code within the frame to scan</Text>
+          <Text style={styles.text}>Scan QR Code</Text>
         </View>
-      </RNCamera>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
+            <Text style={styles.text}>Flip Camera</Text>
+          </TouchableOpacity>
+        </View>
+      </CameraView>
     </View>
   );
 }
@@ -39,23 +60,39 @@ export default function QrCode() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000",
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  message: {
+    textAlign: 'center',
+    paddingBottom: 10,
   },
   camera: {
     flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
+    width: '100%',
   },
   overlay: {
-    position: "absolute",
-    top: 40,
-    left: 20,
-    right: 20,
-    alignItems: "center",
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: [{ translateX: -50 }, { translateY: -50 }],
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   text: {
-    color: "#fff",
     fontSize: 18,
-    fontWeight: "bold",
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  buttonContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: 'transparent',
+    margin: 64,
+  },
+  button: {
+    flex: 1,
+    alignSelf: 'flex-end',
+    alignItems: 'center',
   },
 });

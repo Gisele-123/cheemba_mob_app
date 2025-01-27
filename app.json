@@ -9,9 +9,9 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "assets/images/splash-bg.png",       // Path to the splash screen image
-      "resizeMode": "contain",             // Options: "contain", "cover", "native"
-      "backgroundColor": "#ffffff"         // Background color of the splash screen
+      "image": "assets/images/splash-bg.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
     },
     "ios": {
       "supportsTablet": true
@@ -20,7 +20,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.akuzwe.cheemba.mobile"
     },
     "web": {
       "bundler": "metro",

@@ -5,17 +5,28 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 
+
+type RootStackParamList = {
+    Welcome: { scannedText: string };  
+  };
+
+  type RouteProp = {
+    params: { scannedText: string };
+    name: string;
+    key: string;
+  };
+
 export const Welcome = () => {
-    const route = useRoute();
+    const route = useRoute<RouteProp>(); 
     const navigation = useNavigation<StackNavigationProp<any>>();
     const [phone, setPhone] = useState('');
-    const { scannedText } = route.params as { scannedText: string };
-
+    const { scannedText } = route.params || { scannedText: '000000' };  
+  
     const handleConfirm = () => {
-        navigation.navigate('Confirm', { phone: Number(phone) });
+      navigation.navigate('Confirm', { phone: Number(phone) });
     };
     const handleLogin = () => {
-        navigation.navigate('Signin');
+      navigation.navigate('Signin');
     };
 
     return (
@@ -26,7 +37,7 @@ export const Welcome = () => {
             </View>
             <View style={styles.cheemba}>
                 <Image source={require('../assets/images/logo.png')} style={styles.logo} />
-                <Text style={styles.code}>{scannedText || "ch078934"}</Text>
+                <Text style={styles.code}>{scannedText}</Text>
             </View>
             <View style={styles.welcomeCont}>
                 <View style={{ display: 'flex', gap: 10 }}>
