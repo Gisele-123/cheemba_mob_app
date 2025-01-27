@@ -20,12 +20,12 @@ export const Status = () => {
                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 2 }}><Text style={{ color: '#D4FFDB', fontSize: 13 }}>59%</Text><Image source={require('../assets/status/battery.png')} /></View>
                     </View>
                 </View>
-                <View style={{display:'flex', flexDirection:'row'}}>
-                    <Image source={require('../assets/status/cheemba.png')}/>
-                    <Image source={require('../assets/status/meter.png')} style={{position:'relative', right: 70, top: 40}}/>
-                    <Image source={require('../assets/status/levelsmeter.png')} style={{position:'relative', right: 80, top: 40, zIndex: 10}}/>
-                </View>
                 <View style={{display:'flex', flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+                    <Image source={require('../assets/status/cheemba.png')} style={{height: 400, width: 200}}/>
+                    <Image source={require('../assets/status/meter.png')} style={{position:'absolute', right: 10, height: 350, width: 10,}}/>
+                    <Text style={{position:'absolute', color:"#1E1E1E", fontSize: 18, fontWeight: 'semibold', right: -20}}>56%</Text>
+                </View>
+                <View style={{display:'flex', flexDirection:'row', justifyContent:'center', alignItems:'center', gap: 10}}>
                     <Image source={require('../assets/icons/attention.png')}/>
                     <Text style={{color:'#233B45', fontSize: 18, fontWeight:'bold'}}>"Transfer to Community Dustbin"</Text>
                 </View>
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         width: 320,
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         padding: 10,
         gap: 20,
         paddingBottom: 80,
