@@ -7,8 +7,12 @@ export const Status=()=>{
         <View style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 10, paddingHorizontal: 10, backgroundColor: '#6FCF97', flex: 1, }}>
             <ScrollView contentContainerStyle={styles.homeContainer}>
              <View>
-                <View>
+                <View >
                     <Image source={require('../assets/images/logo.png')} style={{width: 24,height: 24}}/>
+                    <View>
+                        <Text>Chee-<Text>mba</Text></Text>
+                        <Text>ch078934</Text>
+                    </View>
                 </View>
              </View>
             </ScrollView>
