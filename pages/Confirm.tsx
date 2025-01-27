@@ -2,21 +2,22 @@ import React from 'react';
 import { Text, View, StyleSheet, TextInput, Image } from 'react-native';
 import { Button } from '@/components/Button';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
-
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 interface ConfirmPhoneProps {
-    phone: number;
+    phone: number; 
 }
 
 export const Confirm: React.FC<ConfirmPhoneProps> = ({ phone }) => {
     const navigation = useNavigation<StackNavigationProp<any>>();
-    const handleEnterInfo = () => {
-        navigation.navigate('EnterInfo', { phone: Number(phone) });
-    };
+  const handleEnterInfo = () => {
+    navigation.navigate('EnterInfo', { phone: Number(phone) });
+  };
+
     const handleLogin = () => {
         navigation.navigate('Signin');
     };
+
     return (
         <View style={styles.welcome}>
             <View style={styles.container}>
@@ -94,4 +95,4 @@ const styles = StyleSheet.create({
         display: 'flex',
         paddingHorizontal: 25,
     }
-})
+});

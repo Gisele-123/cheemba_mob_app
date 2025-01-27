@@ -11,21 +11,34 @@ import { Home } from '@/pages/Home';
 import { Profile } from '@/pages/Profile';
 import { Status } from '@/pages/Status';
 import { Statistics } from '@/pages/Statistics';
-import { ScrollView, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { Notifications } from '@/pages/Notifications';
 import { createStackNavigator, StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 
-interface ConfirmPhoneProps {
-  phone: number;
-}
+// Define types for navigation stack parameters
+type AppStackParamList = {
+  Splash: undefined;
+  OnBoarding: undefined;
+  Welcome: undefined;
+  Qrcode: undefined;
+  Confirm: { phone: number };
+  EnterInfo: { phone: number }; 
+  Signin: undefined;
+  Home: undefined;
+  Statistics: undefined;
+  Status: undefined;
+  Profile: undefined;
+  Noti: undefined;
+};
 
+type AppProps = StackScreenProps<AppStackParamList, 'Confirm'>; // Define app props type for Confirm screen
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<AppStackParamList>();
 
-export default function App({ phone }: ConfirmPhoneProps) {
+export default function App({ phone }: { phone: number }) { // Explicitly type phone prop
   return (
     <ScrollView contentContainerStyle={styles.container}>
-    <Stack.Navigator initialRouteName='Splash'>
+      <Stack.Navigator initialRouteName="Splash">
         <Stack.Screen
           name="Splash"
           component={SplashScreenWrapper}
@@ -48,17 +61,17 @@ export default function App({ phone }: ConfirmPhoneProps) {
         />
         <Stack.Screen
           name="Confirm"
-          component={(props: StackScreenProps<any>) => <Confirm {...props} phone={phone} />}
+          component={ConfirmWrapper}
           options={{ headerShown: false }}
         />
         <Stack.Screen
           name="EnterInfo"
-          component={(props: StackScreenProps<any>) => <EnterInfo {...props} phone={phone} />}
+          component={(props: StackScreenProps<AppStackParamList, 'EnterInfo'>) => <EnterInfo {...props} phone={phone} />}
           options={{ headerShown: false }}
         />
         <Stack.Screen
           name="Signin"
-          component={(props: StackScreenProps<any>) => <Signin {...props} phone={phone} />}
+          component={(props: StackScreenProps<AppStackParamList, 'Signin'>) => <Signin phone={phone} {...props} />}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -86,14 +99,13 @@ export default function App({ phone }: ConfirmPhoneProps) {
           component={Notifications}
           options={{ headerShown: false }}
         />
-    </Stack.Navigator>
+      </Stack.Navigator>
     </ScrollView>
-
   );
 }
 
 type SplashScreenProps = {
-  navigation: StackNavigationProp<any, 'Splash'>;
+  navigation: StackNavigationProp<AppStackParamList, 'Splash'>;
 };
 
 const SplashScreenWrapper: React.FC<SplashScreenProps> = ({ navigation }) => {
@@ -107,6 +119,12 @@ const SplashScreenWrapper: React.FC<SplashScreenProps> = ({ navigation }) => {
   return <SplashScreen />;
 };
 
+const ConfirmWrapper = ({ route, navigation }: StackScreenProps<AppStackParamList, 'Confirm'>) => {
+  const { phone } = route.params;
+  return <Confirm phone={phone}  />; 
+};
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -115,5 +133,4 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     backgroundColor: '#6FCF97',
   },
-
 });

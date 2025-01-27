@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Image, TextInput } from 'react-native';
+import { Text, View, StyleSheet, Image, TextInput, Alert } from 'react-native';
 import { Button } from '@/components/Button';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
@@ -23,8 +23,13 @@ export const Welcome = () => {
     const { scannedText } = route.params || { scannedText: '000000' };  
   
     const handleConfirm = () => {
-      navigation.navigate('Confirm', { phone: Number(phone) });
-    };
+        if (phone) {
+          navigation.navigate('Confirm', { phone: Number(phone) });
+        } else {
+          Alert.alert("Please enter your phone number");
+        }
+      };
+
     const handleLogin = () => {
       navigation.navigate('Signin');
     };
