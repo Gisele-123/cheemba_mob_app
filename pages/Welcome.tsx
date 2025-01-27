@@ -3,10 +3,13 @@ import { Text, View, StyleSheet, Image, TextInput } from 'react-native';
 import { Button } from '@/components/Button';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 
 export const Welcome = () => {
+    const route = useRoute();
     const navigation = useNavigation<StackNavigationProp<any>>();
     const [phone, setPhone] = useState('');
+    const { scannedText } = route.params as { scannedText: string };
 
     const handleConfirm = () => {
         navigation.navigate('Confirm', { phone: Number(phone) });
@@ -23,7 +26,7 @@ export const Welcome = () => {
             </View>
             <View style={styles.cheemba}>
                 <Image source={require('../assets/images/logo.png')} style={styles.logo} />
-                <Text style={styles.code}>ch078934</Text>
+                <Text style={styles.code}>{scannedText || "ch078934"}</Text>
             </View>
             <View style={styles.welcomeCont}>
                 <View style={{ display: 'flex', gap: 10 }}>

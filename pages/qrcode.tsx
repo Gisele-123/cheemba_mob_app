@@ -1,45 +1,61 @@
-import React, { useState } from 'react';
-import { Text, View } from 'react-native';
-import { RNCamera } from 'react-native-camera';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
+import React, { useState } from "react";
+import { View, StyleSheet, Text, Alert } from "react-native";
+import { RNCamera } from "react-native-camera";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
 
+export default function QrCode() {
+  const [isScanned, setIsScanned] = useState(false);
+  const navigation = useNavigation<StackNavigationProp<any>>();
 
-export type RootStackParamList = {
-  Qrcode: undefined; 
-  Welcome: { scannedText: string }; 
-};
-type QrcodeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Qrcode'>;
-
-interface QrcodeProps {
-  navigation: QrcodeScreenNavigationProp;
-}
-
-interface BarCodeReadEvent {
-  data: string;
-}
-
-const Qrcode: React.FC<QrcodeProps> = ({ navigation }) => {
-  const [scannedData, setScannedData] = useState<string | null>(null);
-
-  const handleBarCodeRead = ({ data }: BarCodeReadEvent) => {
-    setScannedData(data);
-    navigation.navigate('Welcome', { scannedText: data });
+  const handleBarCodeRead = ({ data }: { data: string }) => {
+    if (!isScanned) {
+      setIsScanned(true); 
+      Alert.alert("QR Code Scanned", `Data: ${data}`, [
+        {
+          text: "OK",
+          onPress: () => navigation.navigate("Welcome", { scannedText: data }),
+        },
+      ]);
+    }
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor:'#6FCF97' }}>
+    <View style={styles.container}>
       <RNCamera
-        style={{ flex: 1 }}
+        style={styles.camera}
         onBarCodeRead={handleBarCodeRead}
         captureAudio={false}
+        barCodeTypes={[RNCamera.Constants.BarCodeType.qr]}
       >
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text>Scan a QR Code</Text>
+        <View style={styles.overlay}>
+          <Text style={styles.text}>Align QR code within the frame to scan</Text>
         </View>
       </RNCamera>
     </View>
   );
-};
+}
 
-export default Qrcode;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#000",
+  },
+  camera: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  overlay: {
+    position: "absolute",
+    top: 40,
+    left: 20,
+    right: 20,
+    alignItems: "center",
+  },
+  text: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+});
