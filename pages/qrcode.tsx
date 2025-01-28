@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Alert, Button, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { CameraView, CameraType, useCameraPermissions } from 'expo-camera'; // Import CameraView and CameraType
+import { CameraView, CameraType, useCameraPermissions } from 'expo-camera'; 
 import { StackNavigationProp } from '@react-navigation/stack';
 
 type RootStackParamList = {
@@ -10,8 +10,8 @@ type RootStackParamList = {
 
 export default function Qrcode() {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const [facing, setFacing] = useState<CameraType>('back'); // Manage camera facing
-  const [permission, requestPermission] = useCameraPermissions(); // Use useCameraPermissions hook
+  const [facing, setFacing] = useState<CameraType>('back'); 
+  const [permission, requestPermission] = useCameraPermissions(); 
 
   const handleBarcodeScanned = ({ type, data }: { type: string; data: string }) => {
     const scannedText = data;
@@ -20,7 +20,7 @@ export default function Qrcode() {
 
   useEffect(() => {
     if (!permission) {
-      return; // Waiting for permission state
+      return; 
     }
   }, [permission]);
 
@@ -41,8 +41,8 @@ export default function Qrcode() {
     <View style={styles.container}>
       <CameraView
         style={styles.camera}
-        facing={facing} // Control camera facing
-        onBarcodeScanned={handleBarcodeScanned} // Correct event name
+        facing={facing} 
+        onBarcodeScanned={handleBarcodeScanned}
       >
         <View style={styles.overlay}>
           <Text style={styles.text}>Scan QR Code</Text>

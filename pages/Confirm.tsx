@@ -2,26 +2,28 @@ import React from 'react';
 import { Text, View, StyleSheet, TextInput, Image } from 'react-native';
 import { Button } from '@/components/Button';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
+
 
 interface ConfirmPhoneProps {
-    phone: number; 
+    phone: number;
 }
 
 export const Confirm: React.FC<ConfirmPhoneProps> = ({ phone }) => {
-    const navigation = useNavigation<StackNavigationProp<any>>();
-  const handleEnterInfo = () => {
-    navigation.navigate('EnterInfo', { phone: Number(phone) });
-  };
 
+    
+    const navigation = useNavigation<StackNavigationProp<any>>();
+    const handleEnterInfo = () => {
+        navigation.navigate('EnterInfo', { phone: Number(phone) });
+    };
     const handleLogin = () => {
         navigation.navigate('Signin');
     };
-
     return (
         <View style={styles.welcome}>
             <View style={styles.container}>
-                <Text style={styles.chee}>Chee-<Text style={styles.mba}>mba</Text> </Text>
+                <Text style={styles.chee}>Chee-<Text style={styles.mba}>mba</Text></Text>
                 <Text style={styles.desc}>Mobile waste management app</Text>
             </View>
             <View style={styles.welcomeCont}>
@@ -41,8 +43,12 @@ export const Confirm: React.FC<ConfirmPhoneProps> = ({ phone }) => {
                 <View style={{ width: 80, height: 43, borderColor: '#FFFFFF', borderWidth: 2, borderRadius: 40, display: 'flex', justifyContent: 'center', alignItems: 'center' }}><Image source={require('../assets/icons/ig.png')} /></View>
             </View>
             <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ color: '#FFFFFF', fontSize: 12 }}>Already have an account, <Text style={{ fontWeight: '600', cursor: 'pointer', textDecorationLine: 'underline' }} onPress={handleLogin}>Login</Text> </Text>
-                <Text style={{ color: '#FFFFFF', fontSize: 12 }}>Forgot <Text style={{ fontWeight: '600', cursor: 'pointer', textDecorationLine: 'underline' }}>Password?</Text> </Text>
+                <Text style={{ color: '#FFFFFF', fontSize: 12 }}>
+                    Already have an account,{' '}<Text style={{ fontWeight: '600', cursor: 'pointer', textDecorationLine: 'underline' }} onPress={handleLogin}>Login</Text>
+                </Text>
+                <Text style={{ color: '#FFFFFF', fontSize: 12 }}>
+                    Forgot{' '}<Text style={{ fontWeight: '600', cursor: 'pointer', textDecorationLine: 'underline' }}>Password?</Text>
+                </Text>
             </View>
         </View>
     );
@@ -95,4 +101,4 @@ const styles = StyleSheet.create({
         display: 'flex',
         paddingHorizontal: 25,
     }
-});
+})

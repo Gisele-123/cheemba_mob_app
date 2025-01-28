@@ -10,7 +10,7 @@ export default function OnBoarding() {
   const navigation = useNavigation<StackNavigationProp<any>>();
 
   const handlePress = () => {
-    navigation.navigate('Qrcode');
+    navigation.navigate('Welcome');
   };
   return (
     <View style={{display:'flex', flex:1, backgroundColor:'#6FCF97'}}>

@@ -1,5 +1,5 @@
-import React from 'react'
-import { Text, View, StyleSheet, Image, TextInput } from 'react-native'
+import React, { useState } from 'react'
+import { Text, View, StyleSheet, Image, TextInput, Alert } from 'react-native'
 import { Button } from '@/components/Button'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
@@ -10,9 +10,29 @@ interface confirmPhone {
 }
 
 export const Signin: React.FC<confirmPhone> = ({ phone }) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [chCode, setChCode] = useState('');
+
     const navigation = useNavigation<StackNavigationProp<any>>();
-    const handleHome = () => {
-        navigation.navigate('Home', { phone: Number(phone) });
+       const handleLogin = async () => {
+        try {
+            const response = await fetch('http://192.168.1.101:5000/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password, ch_code: chCode }),
+            });
+            const data = await response.json();
+
+            if (response.ok) {
+                Alert.alert('Success', data.message);
+                navigation.navigate('Home');
+            } else {
+                Alert.alert('Error', data.message);
+            }
+        } catch (error) {
+            Alert.alert('Error', 'Something went wrong. Please try again.');
+        }
     };
     const handleSignup = () => {
         navigation.navigate('EnterInfo');
@@ -29,11 +49,11 @@ export const Signin: React.FC<confirmPhone> = ({ phone }) => {
                     <View style={{ display: 'flex' }}>
                         <Text style={{ color: '#404040', fontWeight: 400, fontSize: 12, textAlign: 'left', width: 150 }}>Log in to this apps to get all features</Text>
                     </View>
-                    <TextInput style={styles.input} placeholder='Email' />
-                    <TextInput style={styles.input} placeholder='Password' />
-                    <TextInput style={styles.input} placeholder='cheemba code' />
+                    <TextInput style={styles.input} placeholder='Email' onChangeText={setEmail}/>
+                    <TextInput style={styles.input} placeholder='Password' onChangeText={setPassword} secureTextEntry />
+                    <TextInput style={styles.input} placeholder='cheemba code' onChangeText={setChCode}/>
                 </View>
-                <Button title='Login' onPress={handleHome} />
+                <Button title='Login' onPress={handleLogin} />
             </View>
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 20 }}>
                 <View style={{ width: 80, height: 43, borderColor: '#FFFFFF', borderWidth: 2, borderRadius: 40, display: 'flex', justifyContent: 'center', alignItems: 'center' }}><Image source={require('../assets/icons/twitter.png')} /></View>

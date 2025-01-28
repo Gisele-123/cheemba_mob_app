@@ -18,7 +18,7 @@ type AppStackParamList = {
   OnBoarding: undefined;
   Welcome: undefined;
   Qrcode: undefined;
-  Confirm: { phone: number };
+  Confirm: { phone: number }; 
   EnterInfo: { phone: number };
   Signin: undefined;
   Home: undefined;
@@ -118,3 +118,4 @@ const ConfirmWrapper = ({ route }: StackScreenProps<AppStackParamList, 'Confirm'
   const { phone } = route.params;
   return <Confirm phone={phone} />;
 };
+

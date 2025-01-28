@@ -6,39 +6,39 @@ import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 
 
-type RootStackParamList = {
-    Welcome: { scannedText: string };  
-  };
+// type RootStackParamList = {
+//     Welcome: { scannedText: string };  
+//   };
 
-  type RouteProp = {
+type RouteProp = {
     params: { scannedText: string };
     name: string;
     key: string;
-  };
+};
 
 export const Welcome = () => {
-    const route = useRoute<RouteProp>(); 
+    const route = useRoute<RouteProp>();
     const navigation = useNavigation<StackNavigationProp<any>>();
     const [phone, setPhone] = useState('');
-    const { scannedText } = route.params || { scannedText: '000000' };  
-  
+    const { scannedText } = route.params || { scannedText: '000000' };
+
     const handleConfirm = () => {
-        if (phone.trim()) {
-          navigation.navigate('Confirm', { phone: Number(phone) }); 
+        console.log('Phone:', phone);
+        if (phone) {
+            navigation.navigate('Confirm', { phone: Number(phone) });
         } else {
-          Alert.alert("Please enter your phone number");
+            Alert.alert("Please enter your phone number");
         }
-      };
-      
+    };
 
     const handleLogin = () => {
-      navigation.navigate('Signin');
+        navigation.navigate('Signin');
     };
 
     return (
         <View style={styles.welcome}>
             <View style={styles.container}>
-                <Text style={styles.chee}>Chee-<Text style={styles.mba}>mba</Text> </Text>
+                <Text style={styles.chee}>Chee-<Text style={styles.mba}>mba</Text></Text>
                 <Text style={styles.desc}>Mobile waste management app</Text>
             </View>
             <View style={styles.cheemba}>
@@ -65,8 +65,13 @@ export const Welcome = () => {
                 <View style={{ width: 80, height: 43, borderColor: '#FFFFFF', borderWidth: 2, borderRadius: 40, display: 'flex', justifyContent: 'center', alignItems: 'center' }}><Image source={require('../assets/icons/ig.png')} /></View>
             </View>
             <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ color: '#FFFFFF', fontSize: 12 }}>Already have an account, <Text onPress={handleLogin} style={{ fontWeight: '600', cursor: 'pointer', textDecorationLine: 'underline' }}>Login</Text> </Text>
-                <Text style={{ color: '#FFFFFF', fontSize: 12 }}>Forgot <Text style={{ fontWeight: '600', cursor: 'pointer', textDecorationLine: 'underline' }}>Password?</Text> </Text>
+                <Text style={{ color: '#FFFFFF', fontSize: 12 }}>
+                    Already have an account,{' '}<Text onPress={handleLogin} style={{ fontWeight: '600', textDecorationLine: 'underline' }}>Login</Text>
+                </Text>
+                <Text style={{ color: '#FFFFFF', fontSize: 12 }}>
+                    Forgot{' '}<Text style={{ fontWeight: '600', textDecorationLine: 'underline' }}>Password?</Text>
+                </Text>
+
             </View>
         </View>
     );
@@ -79,7 +84,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: 20,
-        backgroundColor:'#6FCF97',
+        backgroundColor: '#6FCF97',
     },
     container: {
         display: 'flex',
