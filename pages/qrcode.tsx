@@ -16,10 +16,11 @@ export default function Qrcode() {
 
   const handleBarcodeScanned = ({ type, data }: { type: string; data: string }) => {
     if (hasScanned) return;
-    
+
     setHasScanned(true);
     const scannedText = data;
     navigation.navigate('Welcome', { scannedText });
+    Alert.alert("Keep ch_code safe. You will need it upon registration")
   };
 
   useEffect(() => {

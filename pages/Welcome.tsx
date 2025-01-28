@@ -30,7 +30,6 @@ export const Welcome = () => {
     console.log('Phone entered:', phone);
     if (phone) {
       navigation.navigate('Confirm', { phone: Number(phone) });
-      Alert.alert("Keep ch_code safe. You will need it upon registration")
       console.log('Navigating to Confirm screen...');
     } else {
       Alert.alert("Please enter your phone number");
