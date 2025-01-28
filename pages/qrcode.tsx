@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Alert, Button, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { CameraView, CameraType, useCameraPermissions } from 'expo-camera'; 
+import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 type RootStackParamList = {
-  Welcome: { scannedText: string };
+  Welcome: { scannedText?: string }; 
 };
 
 export default function Qrcode() {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const [facing, setFacing] = useState<CameraType>('back'); 
-  const [permission, requestPermission] = useCameraPermissions(); 
+  const [facing, setFacing] = useState<CameraType>('back');
+  const [permission, requestPermission] = useCameraPermissions();
+  const [hasScanned, setHasScanned] = useState(false); 
 
   const handleBarcodeScanned = ({ type, data }: { type: string; data: string }) => {
+    if (hasScanned) return;
+    
+    setHasScanned(true);
     const scannedText = data;
     navigation.navigate('Welcome', { scannedText });
   };
 
   useEffect(() => {
     if (!permission) {
-      return; 
+      return;
     }
   }, [permission]);
 
@@ -41,7 +45,7 @@ export default function Qrcode() {
     <View style={styles.container}>
       <CameraView
         style={styles.camera}
-        facing={facing} 
+        facing={facing}
         onBarcodeScanned={handleBarcodeScanned}
       >
         <View style={styles.overlay}>

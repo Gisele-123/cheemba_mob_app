@@ -17,7 +17,7 @@ export const Signin: React.FC<confirmPhone> = ({ phone }) => {
     const navigation = useNavigation<StackNavigationProp<any>>();
        const handleLogin = async () => {
         try {
-            const response = await fetch('http://192.168.1.101:5000/login', {
+            const response = await fetch('http://10.12.73.185:5000/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password, ch_code: chCode }),

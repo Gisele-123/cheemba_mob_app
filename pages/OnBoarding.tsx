@@ -1,4 +1,3 @@
-import { useRouter } from 'expo-router';
 import React from 'react';
 import { ImageBackground, StyleSheet, View, Text, Dimensions, Image, TouchableOpacity } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -9,8 +8,8 @@ const { height, width } = Dimensions.get('window');
 export default function OnBoarding() {
   const navigation = useNavigation<StackNavigationProp<any>>();
 
-  const handlePress = () => {
-    navigation.navigate('Welcome');
+  const handleQrCode = () => {
+    navigation.navigate('Qrcode');
   };
   return (
     <View style={{display:'flex', flex:1, backgroundColor:'#6FCF97'}}>
@@ -27,7 +26,7 @@ export default function OnBoarding() {
           mobile application.
           Fast & Secure</Text>
       </View>
-      <TouchableOpacity onPress={handlePress} style={styles.button}>
+      <TouchableOpacity onPress={handleQrCode} style={styles.button}>
         <Image source={require('@/assets/images/arrow.png')} />
       </TouchableOpacity>
     </ImageBackground>

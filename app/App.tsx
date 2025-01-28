@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import SplashScreen from '@/pages/SplashScreen';
 import { createStackNavigator, StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
+import SplashScreen from '@/pages/SplashScreen';
 import OnBoarding from '@/pages/OnBoarding';
 import Qrcode from '@/pages/qrcode';
 import { Welcome } from '@/pages/Welcome';
@@ -18,7 +18,7 @@ type AppStackParamList = {
   OnBoarding: undefined;
   Welcome: undefined;
   Qrcode: undefined;
-  Confirm: { phone: number }; 
+  Confirm: { phone: number };
   EnterInfo: { phone: number };
   Signin: undefined;
   Home: undefined;
@@ -114,8 +114,16 @@ const SplashScreenWrapper: React.FC<SplashScreenProps> = ({ navigation }) => {
   return <SplashScreen />;
 };
 
-const ConfirmWrapper = ({ route }: StackScreenProps<AppStackParamList, 'Confirm'>) => {
-  const { phone } = route.params;
+const ConfirmWrapper: React.FC<StackScreenProps<AppStackParamList, 'Confirm'>> = ({
+  route,
+  navigation,
+}) => {
+  const { phone } = route.params ?? { phone: null };
+
+  if (!phone) {
+    navigation.replace('Welcome');
+    return null;
+  }
+
   return <Confirm phone={phone} />;
 };
-

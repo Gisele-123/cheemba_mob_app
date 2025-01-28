@@ -17,6 +17,7 @@ export const Confirm: React.FC<ConfirmPhoneProps> = ({ phone }) => {
     const handleEnterInfo = () => {
         navigation.navigate('EnterInfo', { phone: Number(phone) });
     };
+    console.log(phone); 
     const handleLogin = () => {
         navigation.navigate('Signin');
     };
@@ -52,6 +53,7 @@ export const Confirm: React.FC<ConfirmPhoneProps> = ({ phone }) => {
             </View>
         </View>
     );
+
 };
 
 const styles = StyleSheet.create({
