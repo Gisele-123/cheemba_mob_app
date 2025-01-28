@@ -1,8 +1,16 @@
 import React, { useState } from "react"
 import { StyleSheet, View, ScrollView, Text, Image, TouchableOpacity } from "react-native"
 import TabBar from "@/components/TabBar"
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
+
 
 export const Profile = () => {
+ const navigation = useNavigation<StackNavigationProp<any>>();
+ const handleLogout = () => {
+    navigation.navigate('Signin');
+};
+
     return (
         <View style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 10, paddingHorizontal: 10, backgroundColor: '#6FCF97', flex: 1, }}>
             <ScrollView contentContainerStyle={styles.homeContainer}>
@@ -43,8 +51,8 @@ export const Profile = () => {
                         </View>
                     </View>
                     <View style={{ marginTop: 20 }}>
-                        <TouchableOpacity style={styles.logout}>
-                            <Text style={{ color: '#fff' }}>Update Profile</Text>
+                        <TouchableOpacity style={styles.logout} onPress={handleLogout}>
+                            <Text style={{ color: '#fff' }}>Logout</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
