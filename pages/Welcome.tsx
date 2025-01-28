@@ -23,12 +23,13 @@ export const Welcome = () => {
     const { scannedText } = route.params || { scannedText: '000000' };  
   
     const handleConfirm = () => {
-        if (phone) {
-          navigation.navigate('Confirm', { phone: Number(phone) });
+        if (phone.trim()) {
+          navigation.navigate('Confirm', { phone: Number(phone) }); 
         } else {
           Alert.alert("Please enter your phone number");
         }
       };
+      
 
     const handleLogin = () => {
       navigation.navigate('Signin');
@@ -59,7 +60,7 @@ export const Welcome = () => {
                 <Button title='Continue' onPress={handleConfirm} />
             </View>
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 20 }}>
-                <View style={{ width: 80, height: 43, borderColor: '#FFFFFF', borderWidth: 2, borderRadius: 40, display: 'flex', justifyContent: 'center', alignItems: 'center' }}> <Image source={require('../assets/icons/twitter.png')} /> </View>
+                <View style={{ width: 80, height: 43, borderColor: '#FFFFFF', borderWidth: 2, borderRadius: 40, display: 'flex', justifyContent: 'center', alignItems: 'center' }}><Image source={require('../assets/icons/twitter.png')} /> </View>
                 <View style={{ width: 80, height: 43, borderColor: '#FFFFFF', borderWidth: 2, borderRadius: 40, display: 'flex', justifyContent: 'center', alignItems: 'center' }}><Image source={require('../assets/icons/google.png')} /></View>
                 <View style={{ width: 80, height: 43, borderColor: '#FFFFFF', borderWidth: 2, borderRadius: 40, display: 'flex', justifyContent: 'center', alignItems: 'center' }}><Image source={require('../assets/icons/ig.png')} /></View>
             </View>
