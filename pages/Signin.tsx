@@ -25,8 +25,9 @@ export const Signin: React.FC<confirmPhone> = ({ phone }) => {
             const data = await response.json();
 
             if (response.ok) {
+                const username = data.username;
                 Alert.alert('Success', data.message);
-                navigation.navigate('Home');
+                navigation.navigate('Home', { username });
             } else {
                 Alert.alert('Error', data.message);
             }

@@ -3,11 +3,17 @@ import { StyleSheet, View, ScrollView, Text, Image, TouchableOpacity, Animated }
 import WhatToDoCard from "@/components/whatToDoCard"
 import TabBar from "@/components/TabBar"
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+
+type HomeRouteParams = {
+    username: string;
+  };
 
 export const Home = () => {
 
     const navigation = useNavigation<StackNavigationProp<any>>();
+    const route=useRoute()
+    const { username } = route.params as HomeRouteParams; 
         const handleHome = () => {
             navigation.navigate('Home');
         };
@@ -48,7 +54,7 @@ export const Home = () => {
                     <View style={{ width: 35, height: 35, borderRadius: 50, justifyContent: 'center', alignItems: 'center' }}><TouchableOpacity onPress={handleProfile}><Image source={require('../assets/icons/profile.png')} /></TouchableOpacity></View>
                 </View>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: 275 }}>
-                    <Text style={{ color: '#233B45', fontWeight: 700, fontSize: 14 }}>Hey Jacob👋</Text>
+                    <Text style={{ color: '#233B45', fontWeight: 700, fontSize: 14 }}>Hey {username}👋</Text>
                     <View style={{ width: 20, height: 20, borderRadius: 50, justifyContent: 'center', alignItems: 'center' }}> <TouchableOpacity onPress={handleStatus}><Image source={require('../assets/icons/attention.png')} /></TouchableOpacity> </View>
                 </View>
                 <Text style={{ color: '#233B45', fontSize: 12, textAlign: 'left' }}>Let’s see your contribution to the society</Text>
