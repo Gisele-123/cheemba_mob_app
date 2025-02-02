@@ -9,10 +9,11 @@ import {
 } from "react-native";
 
 interface ButtonProps {
-  title: string;
+  title: string | React.ReactNode;
   onPress?: () => void;
   buttonStyle?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
+  disabled?: boolean
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -20,13 +21,14 @@ export const Button: React.FC<ButtonProps> = ({
   onPress,
   buttonStyle,
   textStyle,
+  disabled
 }) => {
   return (
     <TouchableOpacity
       style={[styles.button, buttonStyle]} 
       onPress={onPress}
     >
-      <Text style={[styles.title, textStyle]}>{title}</Text>
+      {typeof title === 'string' ? <Text style={[styles.title, textStyle]}>{title}</Text> : title}
     </TouchableOpacity>
   );
 };

@@ -1,9 +1,9 @@
-import React from 'react';
-import { Text, View, StyleSheet, TextInput, Image } from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, StyleSheet, TextInput, Image, Alert } from 'react-native';
 import { Button } from '@/components/Button';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import axios from 'axios';
 
 
 interface ConfirmPhoneProps {
@@ -11,13 +11,49 @@ interface ConfirmPhoneProps {
 }
 
 export const Confirm: React.FC<ConfirmPhoneProps> = ({ phone }) => {
+    const [code, setCode] = useState('');
+    const [loading, setLoading] = useState(false);
+    const route = useRoute();
 
-    
     const navigation = useNavigation<StackNavigationProp<any>>();
-    const handleEnterInfo = () => {
-        navigation.navigate('EnterInfo', { phone: Number(phone) });
-    };
-    console.log(phone); 
+    const handleEnterInfo = async () => {
+        if (!code) {
+          Alert.alert('Error', 'Please enter the verification code');
+          return;
+        }
+      
+        // Validate phone number format
+        const phoneRegex = /^0\d{9}$/;
+        if (!phoneRegex.test(String(phone))) {
+          Alert.alert('Error', 'Invalid phone number format. It should start with 0 and be 10 digits long.');
+          return;
+        }
+      
+        // Validate verification code format
+        const codeRegex = /^\d{6}$/;
+        if (!codeRegex.test(code)) {
+          Alert.alert('Error', 'Invalid verification code. It should be a 6-digit number.');
+          return;
+        }
+      
+        setLoading(true);
+      
+        try {
+          const response = await axios.post('http://10.12.73.185:5000/confirm-verification', {
+            phone_number: String(phone), 
+            verification_code: code
+          });
+      
+          if (response.data.success) {
+            Alert.alert('Success', 'Phone number verified successfully!');
+            navigation.navigate('EnterInfo', { phone: phone });
+          } else {
+            Alert.alert('Error', response.data.message || 'Invalid verification code');
+          }
+        } finally {
+          setLoading(false);
+        }
+      };
     const handleLogin = () => {
         navigation.navigate('Signin');
     };
@@ -34,9 +70,19 @@ export const Confirm: React.FC<ConfirmPhoneProps> = ({ phone }) => {
                         <Text style={{ color: '#404040', fontWeight: '400', fontSize: 12, textAlign: 'left' }}>We sent a code via SMS to {phone}</Text>
                         <Text style={{ color: '#404040', fontWeight: '400', fontSize: 12, textAlign: 'left' }}>Enter it below:</Text>
                     </View>
-                    <TextInput style={styles.input} placeholder='4 Digit Confirmation Pin' />
+                    <TextInput
+                        style={styles.input}
+                        placeholder='6 Digit Confirmation Pin'
+                        value={code}
+                        onChangeText={setCode}
+                        keyboardType="number-pad"
+                    />
                 </View>
-                <Button title='Confirm' onPress={handleEnterInfo} />
+                <Button
+                    title={<Text>{loading ? 'Verifying...' : 'Continue'}</Text>}
+                    onPress={handleEnterInfo}
+                    disabled={loading}
+                />
             </View>
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 20 }}>
                 <View style={{ width: 80, height: 43, borderColor: '#FFFFFF', borderWidth: 2, borderRadius: 40, display: 'flex', justifyContent: 'center', alignItems: 'center' }}><Image source={require('../assets/icons/twitter.png')} /></View>
@@ -63,7 +109,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: 20,
-        backgroundColor:'#6FCF97'
+        backgroundColor: '#6FCF97'
     },
     container: {
         display: 'flex',

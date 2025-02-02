@@ -17,6 +17,7 @@ export const EnterInfo: React.FC<confirmPhone> = ({ phone }) => {
     const [password, setPassword] = useState('');
     const [chCode, setChCode] = useState('');
     const [maritalStatus, setMaritalStatus] = useState('');
+    const [phone_number, setPhoneNumner] = useState('');
 
     const handleSignup = async () => {
         try {
@@ -27,6 +28,7 @@ export const EnterInfo: React.FC<confirmPhone> = ({ phone }) => {
                 password,
                 ch_code: chCode,
                 marital_status: maritalStatus,
+                phone_number: phone_number,                
             });
 
             if (response.status === 200 || response.status ===201) {
@@ -69,6 +71,7 @@ export const EnterInfo: React.FC<confirmPhone> = ({ phone }) => {
                     <TextInput style={styles.input} placeholder="Marital status" onChangeText={setMaritalStatus} />
                     <TextInput style={styles.input} placeholder="Password" onChangeText={setPassword} secureTextEntry />
                     <TextInput style={styles.input} placeholder="Ch_Code" onChangeText={setChCode} />
+                    <TextInput style={styles.input} placeholder="Phone number" onChangeText={setPhoneNumner} />
                 </View>
                 <Button title="Sign up" onPress={handleSignup} />
             </View>
