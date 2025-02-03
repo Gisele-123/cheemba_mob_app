@@ -1,9 +1,10 @@
 import React, { useState } from "react"
-import { StyleSheet, View, ScrollView, Text, Image, TouchableOpacity, Animated } from "react-native"
+import { StyleSheet, View, ScrollView, Text, Image, TouchableOpacity, Animated, Alert } from "react-native"
 import WhatToDoCard from "@/components/whatToDoCard"
 import TabBar from "@/components/TabBar"
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type HomeRouteParams = {
     username: string;
@@ -29,9 +30,29 @@ export const Home = () => {
         const handleNotifications=()=>{
             navigation.navigate('Noti')
         }
-        const handleLogout=()=>{
-            navigation.navigate('Signin')
-        }
+        const handleLogout = async () => {
+            try {
+                const response = await fetch('http://10.12.73.185:5000/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${await AsyncStorage.getItem('token')}`,
+                    },
+                });
+        
+                if (response.ok) {
+                    await AsyncStorage.removeItem('token');
+        
+                    navigation.navigate('Signin');
+                } else {
+                    const data = await response.json();
+                    Alert.alert('Error', data.message || 'Logout failed');
+                }
+            } catch (error) {
+                console.error('Logout error:', error);
+                Alert.alert('Error', 'Something went wrong. Please try again.');
+            }
+        };
     const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
     return (

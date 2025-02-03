@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, Image, TextInput, Alert } from 'react-native'
 import { Button } from '@/components/Button'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 interface confirmPhone {
@@ -15,7 +16,8 @@ export const Signin: React.FC<confirmPhone> = ({ phone }) => {
     const [chCode, setChCode] = useState('');
 
     const navigation = useNavigation<StackNavigationProp<any>>();
-       const handleLogin = async () => {
+       
+    const handleLogin = async () => {
         try {
             const response = await fetch('http://10.12.73.185:5000/login', {
                 method: 'POST',
@@ -23,18 +25,24 @@ export const Signin: React.FC<confirmPhone> = ({ phone }) => {
                 body: JSON.stringify({ email, password, ch_code: chCode }),
             });
             const data = await response.json();
-
+    
             if (response.ok) {
                 const username = data.username;
+                const token = data.token; 
+    
+                await AsyncStorage.setItem('token', token);
+    
                 Alert.alert('Success', data.message);
                 navigation.navigate('Home', { username });
             } else {
                 Alert.alert('Error', data.message);
             }
         } catch (error) {
+            console.error('Login error:', error);
             Alert.alert('Error', 'Something went wrong. Please try again.');
         }
     };
+    
     const handleSignup = () => {
         navigation.navigate('EnterInfo');
     };
