@@ -5,6 +5,8 @@ import TabBar from "@/components/TabBar"
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { WasteSegregationChart } from "@/components/charts/WasteSegregationChart";
+
 
 type HomeRouteParams = {
     username: string;
@@ -84,21 +86,9 @@ export const Home = () => {
                         <Text style={{ color: '#FFFFFF', width: 100, textAlign: 'left' }}>Good Going, Jacob</Text>
                         <Image source={require('../assets/images/4.png')} style={{ width: 28, height: 42 }} />
                     </View>
-                    <View style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', width: 275, padding: 10, gap: 8, }}>
-                        <View>
-                            <Image source={require('../assets/images/graph.png')} />
-                        </View>
-                        <View style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 10, }}>
-                            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 5 }}><View style={{ width: 8, height: 8, backgroundColor: '#DC7561', borderRadius: 50 }}></View><Text style={{ color: '#ffffff' }}>Plastics</Text></View>
-                            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 5 }}><View style={{ width: 8, height: 8, backgroundColor: '#89C280', borderRadius: 50 }}></View><Text style={{ color: '#ffffff' }}>Metals</Text></View>
-                            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 5 }}><View style={{ width: 8, height: 8, backgroundColor: '#FFDA75', borderRadius: 50 }}></View><Text style={{ color: '#ffffff' }}>Biodegradable</Text></View>
-                            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 5 }}><View style={{ width: 8, height: 8, backgroundColor: '#6983C7', borderRadius: 50 }}></View><Text style={{ color: '#ffffff' }}>Papers</Text></View>
-                        </View>
-                        <View style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: 10, }}>
-                            <Text style={{ color: '#ffffff' }}>41%</Text>
-                            <Text style={{ color: '#ffffff' }}>39%</Text>
-                            <Text style={{ color: '#ffffff' }}>12%</Text>
-                            <Text style={{ color: '#ffffff' }}>8%</Text>
+                    <View style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', width: 275, padding: 10, gap: 40, }}>
+                        <View style={{display:'flex', justifyContent:'center', alignItems:'center',position:'relative', top: -45, left: -40}}>
+                            <WasteSegregationChart />
                         </View>
                     </View>
                 </View>

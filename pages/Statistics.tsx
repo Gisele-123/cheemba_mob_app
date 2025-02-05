@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { StyleSheet, View, ScrollView, Text, Image } from "react-native"
 import TabBar from "@/components/TabBar"
 import { Button } from "@/components/Button"
+import { PowerUsageChart } from "@/components/charts/PowerUsageChart"
 
 export const Statistics = () => {
     return (
@@ -20,7 +21,7 @@ export const Statistics = () => {
                         <Text style={{ color: '#fff', fontSize: 14, fontWeight: 'semibold' }}>4230.54 kg</Text>
                     </View>
                 </View>
-                <Image source={require('../assets/status/energy.png')} style={{ width: 260, height: 175 }} />
+                <PowerUsageChart />
                 <View style={{ width: 290, gap: 10, padding: 20, borderRadius: 10, backgroundColor: '#FFFFFF1A', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={{ width: 160, textAlign: 'left', color: '#fff', fontSize: 12, fontWeight: 'medium' }}>Cheemba is consuming 24 kWh. Switch it off to save energy</Text>
                     <Button title="Turn Off" textStyle={{ color: '#fff', fontSize: 16, fontWeight: 'semibold', textAlign: 'center' }} buttonStyle={{ backgroundColor: '#EA5A42', padding: 10, borderRadius: 5, width: 100, display: 'flex', justifyContent: 'center', alignItems: 'center' }} />
