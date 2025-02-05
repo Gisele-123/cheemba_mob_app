@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "790843852908",
+    "project_id": "cheemba-1146a",
+    "storage_bucket": "cheemba-1146a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790843852908:android:c01b2e525ec9e3f40d3049",
+        "android_client_info": {
+          "package_name": "com.android.tools"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFVlBNIPYNnXB3llqKDivFpEuk__CKKSk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

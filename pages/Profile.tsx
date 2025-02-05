@@ -20,14 +20,21 @@ export const Profile = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
+        const token = await AsyncStorage.getItem('token');
+        if (!token) {
+          Alert.alert('Error', 'No authentication token found');
+          return;
+        }
+        
         const response = await axios.get('http://10.12.73.185:5000/profile', {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
+            Authorization: `Bearer ${token}`
           }
         });
         setUserData(response.data);
       } catch (error) {
         console.error('Error fetching user profile:', error);
+        Alert.alert('Error', 'Failed to load profile data');
       }
     };
 
@@ -36,17 +43,23 @@ export const Profile = () => {
 
   const handleLogout = async () => {
     try {
+        const token = await AsyncStorage.getItem('token');
+        if (!token) {
+          Alert.alert('Error', 'No authentication token found');
+          return;
+        }
+
         const response = await fetch('http://10.12.73.185:5000/logout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${await AsyncStorage.getItem('token')}`,
+                Authorization: `Bearer ${token}`,
             },
         });
 
         if (response.ok) {
+          Alert.alert("Are you sure to logout?")
             await AsyncStorage.removeItem('token');
-
             navigation.navigate('Signin');
         } else {
             const data = await response.json();
@@ -56,75 +69,91 @@ export const Profile = () => {
         console.error('Logout error:', error);
         Alert.alert('Error', 'Something went wrong. Please try again.');
     }
-};
+  };
 
   return (
-    <View style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 10, paddingHorizontal: 10, backgroundColor: '#6FCF97', flex: 1 }}>
+    <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.homeContainer}>
-        <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', width: '100%', gap: 90, marginTop: 10 }}>
-          <Text style={{ color: '#fff', fontSize: 16 }}>Profile</Text>
+        <View style={styles.header}>
+          <Text style={styles.profileTitle}>Profile</Text>
         </View>
-        <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', gap: 5, marginBottom: 16 }}>
+        <View style={styles.profileInfo}>
           <Image source={require('../assets/icons/profile.png')} />
-          <Text style={{ fontSize: 16, color: '#fff', fontWeight: 'bold' }}>{userData.name}</Text>
-          <Text style={{ color: '#8D918D' }}>{userData.email}</Text>
+          <Text style={styles.name}>{userData.name}</Text>
+          <Text style={styles.email}>{userData.ch_code}</Text>
         </View>
         <View style={styles.profileContainer}>
           <View style={styles.detailsContainer}>
-            <View style={styles.row}>
-              <Text style={{ color: '#ACACAC' }}>Username</Text>
-              <Text style={{ color: '#343434' }}>{userData.name}</Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={{ color: '#ACACAC' }}>Cheemba code</Text>
-              <Text style={{ color: '#343434' }}>{userData.ch_code}</Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={{ color: '#ACACAC' }}>Marital status</Text>
-              <Text style={{ color: '#343434' }}>{userData.marital_status}</Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={{ color: '#ACACAC' }}>Phone</Text>
-              <Text style={{ color: '#343434' }}>{userData.phone_number}</Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={{ color: '#ACACAC' }}>Email</Text>
-              <Text style={{ color: '#343434' }}>{userData.email}</Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={{ color: '#ACACAC' }}>Location</Text>
-              <Text style={{ color: '#343434' }}>{userData.location}</Text>
-            </View>
-            <View>
-              <TouchableOpacity style={styles.button}>
-                <Text style={{ color: '#4A4A4A' }}>Update Profile</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={{ marginTop: 20 }}>
-            <TouchableOpacity style={styles.logout} onPress={handleLogout}>
-              <Text style={{ color: '#fff' }}>Logout</Text>
+            {[
+              { label: 'Username', value: userData.name },
+              { label: 'Cheemba code', value: userData.ch_code },
+              { label: 'Marital status', value: userData.marital_status },
+              { label: 'Phone', value: userData.phone_number },
+              { label: 'Email', value: userData.email },
+              { label: 'Location', value: userData.location },
+            ].map((item, index) => (
+              <View key={index} style={styles.row}>
+                <Text style={styles.label}>{item.label}</Text>
+                <Text style={styles.value}>{item.value}</Text>
+              </View>
+            ))}
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>Update Profile</Text>
             </TouchableOpacity>
           </View>
+          <TouchableOpacity style={styles.logout} onPress={handleLogout}>
+            <Text style={styles.logoutText}>Logout</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
-      <View>
-        <TabBar />
-      </View>
+      <TabBar />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingTop: 10,
+    paddingHorizontal: 10,
+    backgroundColor: '#6FCF97',
+  },
   homeContainer: {
     backgroundColor: '#134D64',
     width: 320,
-    display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-start',
     borderRadius: 20,
     gap: 20,
     paddingTop: 10,
+  },
+  header: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    width: '100%',
+    marginTop: 10,
+  },
+  profileTitle: {
+    color: '#fff',
+    fontSize: 16,
+  },
+  profileInfo: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    gap: 5,
+    marginBottom: 16,
+  },
+  name: {
+    fontSize: 16,
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  email: {
+    color: '#8D918D',
   },
   profileContainer: {
     backgroundColor: '#fff',
@@ -132,11 +161,9 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 20,
-    color: '#fff'
   },
   detailsContainer: {
     backgroundColor: '#fff',
-    display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-start',
     borderRadius: 20,
@@ -150,24 +177,37 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
   },
+  label: {
+    color: '#ACACAC',
+  },
+  value: {
+    color: '#343434',
+  },
   button: {
-    display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     width: 250,
     padding: 10,
     borderRadius: 5,
     backgroundColor: '#F3F3F3',
-    cursor: 'pointer',
+  },
+  buttonText: {
+    color: '#4A4A4A',
   },
   logout: {
-    display: 'flex',
+    display:'flex',
+    position:'relative',
+    top:10,
     justifyContent: 'center',
     alignItems: 'center',
     width: 280,
     padding: 10,
     borderRadius: 5,
     backgroundColor: '#4C4C4C',
-    cursor: 'pointer',
+  },
+  logoutText: {
+    color: '#fff',
   },
 });
+
+export default Profile;

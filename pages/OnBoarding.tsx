@@ -11,25 +11,36 @@ export default function OnBoarding() {
   const handleQrCode = () => {
     navigation.navigate('Qrcode');
   };
+  const handleSignIn = () => {
+    navigation.navigate('Signin')
+  }
   return (
-    <View style={{display:'flex', flex:1, backgroundColor:'#6FCF97'}}>
-    <ImageBackground
-      source={require('../assets/images/splash-bg.png')}
-      style={styles.background}
-      resizeMode="cover"
-    >
-      <Image source={require('../assets/images/qr.png')} style={{ position: 'relative', top: 20, left: 19, width: 160, height: 160 }} />
-      <View style={styles.content}>
-        <Text style={styles.header}>Get Started</Text>
-        <Text style={styles.text}>Scan the qr code on the head of cheemba
-          to get real-time alerts on your
-          mobile application.
-          Fast & Secure</Text>
-      </View>
-      <TouchableOpacity onPress={handleQrCode} style={styles.button}>
-        <Image source={require('@/assets/images/arrow.png')} />
-      </TouchableOpacity>
-    </ImageBackground>
+    <View style={{ display: 'flex', flex: 1, backgroundColor: '#6FCF97' }}>
+      <ImageBackground
+        source={require('../assets/images/splash-bg.png')}
+        style={styles.background}
+        resizeMode="cover"
+      >
+        <Image source={require('../assets/images/qr.png')} style={{ position: 'relative', top: 20, left: 19, width: 160, height: 160 }} />
+        <View style={styles.content}>
+          <Text style={styles.header}>Get Started</Text>
+          <Text style={styles.text}>Scan the qr code on the head of cheemba
+            to get real-time alerts on your
+            mobile application.
+            Fast & Secure</Text>
+        </View>
+        <TouchableOpacity onPress={handleQrCode} style={styles.button}>
+          <Image source={require('@/assets/images/arrow.png')} />
+        </TouchableOpacity>
+        <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', top: 130, left: 20 }}>
+          <Text style={{ color: '#fff' }}>
+            Already have an account?
+          </Text>
+          <TouchableOpacity onPress={handleSignIn}>
+            <Text style={{ color: '#fff', textAlign: 'center', cursor: 'pointer' }}>Login</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
     </View>
   );
 }
@@ -61,7 +72,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     gap: 20,
-    position:'relative',
+    position: 'relative',
     top: 90,
   },
   header: {
@@ -79,10 +90,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: '50%',
-    position:'relative',
-    top: 130,
+    position: 'relative',
+    top: 110,
     left: 90,
-    cursor:'pointer',
+    cursor: 'pointer',
   },
   buttonContainer: {
     position: 'absolute',
