@@ -39,7 +39,7 @@ export const Confirm: React.FC<ConfirmPhoneProps> = ({ phone }) => {
         setLoading(true);
       
         try {
-          const response = await axios.post('http://10.12.73.185:5000/confirm-verification', {
+          const response = await axios.post('http://192.168.93.128:5000/confirm-verification', {
             phone_number: String(phone), 
             verification_code: code
           });

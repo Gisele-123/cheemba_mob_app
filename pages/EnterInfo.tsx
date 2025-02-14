@@ -21,7 +21,7 @@ export const EnterInfo: React.FC<confirmPhone> = ({ phone }) => {
 
     const handleSignup = async () => {
         try {
-            const response = await axios.post('http://10.12.73.185:5000/signup', {
+            const response = await axios.post('http://192.168.93.128:5000/signup', {
                 name,
                 email,
                 location,

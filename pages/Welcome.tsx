@@ -42,11 +42,11 @@ export const Welcome = () => {
     setLoading(true);
   
     try {
-      const response = await axios.post('http://10.12.73.185:5000/verify-phone', { phone_number: phone });
+      const response = await axios.post('http://192.168.93.128:5000/verify-phone', { phone_number: phone }, { headers: { "Content-Type": "application/json" } });
   
       if (response.data.success) {
         Alert.alert('Success', 'Verification code sent!');
-        navigation.navigate('Confirm', { phone: phone }); // Pass phone as a string
+        navigation.navigate('Confirm', { phone: phone }); 
       } else {
         Alert.alert('Error', response.data.message || 'Verification failed');
       }

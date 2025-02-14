@@ -26,7 +26,7 @@ export const Profile = () => {
           return;
         }
         
-        const response = await axios.get('http://10.12.73.185:5000/profile', {
+        const response = await axios.get('http://192.168.93.128:5000/profile', {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -49,7 +49,7 @@ export const Profile = () => {
           return;
         }
 
-        const response = await fetch('http://10.12.73.185:5000/logout', {
+        const response = await fetch('http://192.168.93.128:5000/logout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ export const Profile = () => {
         });
 
         if (response.ok) {
-          Alert.alert("Are you sure to logout?")
+          Alert.alert("Logout successfully")
             await AsyncStorage.removeItem('token');
             navigation.navigate('Signin');
         } else {

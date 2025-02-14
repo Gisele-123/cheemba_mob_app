@@ -1,36 +1,57 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { StyleSheet, View, ScrollView, Text, Image, TouchableOpacity, Animated, Alert } from "react-native"
 import WhatToDoCard from "@/components/whatToDoCard"
 import TabBar from "@/components/TabBar"
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { WasteSegregationChart } from "@/components/charts/WasteSegregationChart";
 
 
-type HomeRouteParams = {
-    username: string;
+type RootStackParamList = {
+    Home: { username: string };
+    Profile:{username: string};
+    Noti:{username: string};
+    Signin:{username:string};
+    Status:{username:string};
+    Statistics:{username:string}
   };
 
 export const Home = () => {
 
-    const navigation = useNavigation<StackNavigationProp<any>>();
-    const route=useRoute()
-    const { username } = route.params as HomeRouteParams; 
+    const navigation = useNavigation<StackNavigationProp<RootStackParamList, 'Home'>>();
+    const route = useRoute<RouteProp<RootStackParamList, 'Home'>>();
+
+    const [username, setUsername] = useState<string>("User");
+    useEffect(() => {
+        const fetchUsername = async () => {
+          if (route.params?.username) {
+            setUsername(route.params.username);
+            await AsyncStorage.setItem("username", route.params.username);
+          } else {
+            const storedUsername = await AsyncStorage.getItem("username");
+            if (storedUsername) {
+              setUsername(storedUsername);
+            }
+          }
+        };
+        fetchUsername();
+      }, [route.params?.username]);
+    
         const handleHome = () => {
-            navigation.navigate('Home');
+            navigation.navigate('Home', { username });
         };
         const handleProfile =()=>{
-            navigation.navigate('Profile');
+            navigation.navigate('Profile', { username });
         };
         const handleStatistics=()=>{
-            navigation.navigate('Statistics')
+            navigation.navigate('Statistics', { username })
         }
         const handleStatus=()=>{
-            navigation.navigate('Status')
+            navigation.navigate('Status', { username })
         }
         const handleNotifications=()=>{
-            navigation.navigate('Noti')
+            navigation.navigate('Noti', { username })
         }
         const handleLogout = async () => {
             try {
@@ -45,7 +66,7 @@ export const Home = () => {
                 if (response.ok) {
                     await AsyncStorage.removeItem('token');
         
-                    navigation.navigate('Signin');
+                    navigation.navigate('Signin', { username });
                 } else {
                     const data = await response.json();
                     Alert.alert('Error', data.message || 'Logout failed');
