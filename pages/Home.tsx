@@ -55,7 +55,7 @@ export const Home = () => {
         }
         const handleLogout = async () => {
             try {
-                const response = await fetch('http://10.12.73.185:5000/logout', {
+                const response = await fetch('http://192.168.93.128:5000/logout', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
